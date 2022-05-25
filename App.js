@@ -81,8 +81,7 @@ const App = () => {
             bgcolor: "background.primary",
             minHeight: "100vh",
           }}
-          maxWidth="sm"
-        >
+          maxWidth="sm">
           <Header />
           {showForm && <AddTodo onAdd={addTodo} showForm={setShowForm} />}
           <Box
@@ -92,8 +91,7 @@ const App = () => {
               maxHeight: "75vh",
               overflow: "auto",
               mt: 3,
-            }}
-          >
+            }}>
             {todos.length > 0 ? (
               <Todos
                 todos={todos}
@@ -109,8 +107,7 @@ const App = () => {
                   my: "auto",
                   textAlign: "center",
                   color: "text.secondary",
-                }}
-              >
+                }}>
                 No Tasks to show
               </Typography>
             )}

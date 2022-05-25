@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "title": "Test todo 1",
+      "complete": true,
+      "id": 6
+    },
+    {
+      "title": "Works perfectly for now",
+      "complete": false,
+      "id": 7
+    },
+    {
+      "title": "Code",
+      "complete": true,
+      "id": 8
+    }
+  ]
+}
