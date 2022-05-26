@@ -14,7 +14,7 @@ const App = () => {
   const [showForm, setShowForm] = useState(false);
   //create todo
   const addTodo = async (todo) => {
-    const res = await fetch("http://localhost:5000/todos", {
+    const res = await fetch("http://https://salty-thicket-80808.herokuapp.com//todos", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(todo),
