@@ -14,11 +14,14 @@ const App = () => {
   const [showForm, setShowForm] = useState(false);
   //create task
   const addTask = async (task) => {
-    const res = await fetch("http://localhost:5000/api/task", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(task),
-    });
+    const res = await fetch(
+      "https://tasks-express-api.herokuapp.com/api/task",
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(task),
+      }
+    );
     console.log(res);
     const data = await res.json();
     setTasks([...tasks, data]);
@@ -33,14 +36,16 @@ const App = () => {
     getTasks();
   }, []);
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:5000/api/tasks");
+    const res = await fetch("https://tasks-express-api.herokuapp.com/apitasks");
     const data = await res.json();
     console.log(data);
     return data;
   };
   //get task
   const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/api/tasks/${id}`);
+    const res = await fetch(
+      `https://tasks-express-api.herokuapp.com/api/tasks/${id}`
+    );
     const data = await res.json();
 
     return data;
@@ -50,11 +55,14 @@ const App = () => {
     const taskToUpdate = await fetchTask(id);
     const updTask = { ...taskToUpdate, complete: !taskToUpdate.complete };
 
-    const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
-      method: "PUT",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(updTask),
-    });
+    const res = await fetch(
+      `https://tasks-express-api.herokuapp.com/api/tasks/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(updTask),
+      }
+    );
     const data = await res.json();
 
     setTasks(
@@ -65,7 +73,7 @@ const App = () => {
   };
   //delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    await fetch(`https://tasks-express-api.herokuapp.com/api/tasks/${id}`, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task.id !== id));
