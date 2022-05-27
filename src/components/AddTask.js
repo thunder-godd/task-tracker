@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-const AddTodo = ({ onAdd, showForm }) => {
+const AddTask = ({ onAdd, showForm }) => {
   const [title, setTitle] = useState("");
   const [complete, setComplete] = useState(false);
 
@@ -41,4 +41,4 @@ const AddTodo = ({ onAdd, showForm }) => {
   );
 };
 
-export default AddTodo;
+export default AddTask;

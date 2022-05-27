@@ -1,7 +1,7 @@
 {
-  "todos": [
+  "tasks": [
     {
-      "title": "Test todo 1",
+      "title": "Test task 1",
       "complete": true,
       "id": 6
     },

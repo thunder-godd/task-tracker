@@ -10,50 +10,50 @@ import AddTodo from "./components/AddTodo";
 import FloatButton from "./components/FloatButton";
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [tasks, setTodos] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  //create todo
-  const addTodo = async (todo) => {
-    const res = await fetch("http://localhost:5000/todos", {
+  //create task
+  const addTodo = async (task) => {
+    const res = await fetch("http://localhost:5000/tasks", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(todo),
+      body: JSON.stringify(task),
     });
     const data = await res.json();
-    setTodos([...todos, data]);
+    setTodos([...tasks, data]);
 
     // const id = Math.floor(Math.random() * 10000) + 1;
-    // const newTodo = { id, ...todo };
-    // setTodos([...todos, newTodo]);
+    // const newTodo = { id, ...task };
+    // setTodos([...tasks, newTodo]);
   };
-  //get todos
+  //get tasks
   useEffect(() => {
     const getTodos = async () => {
-      const todosFromServer = await fetchTodos();
-      setTodos(todosFromServer);
+      const tasksFromServer = await fetchTodos();
+      setTodos(tasksFromServer);
     };
 
     getTodos();
   }, []);
   const fetchTodos = async () => {
-    const res = await fetch("http://localhost:5000/todos");
+    const res = await fetch("http://localhost:5000/tasks");
     const data = await res.json();
 
     return data;
   };
-  //get todo
+  //get task
   const fetchTodo = async (id) => {
-    const res = await fetch(`http://localhost:5000/todos/${id}`);
+    const res = await fetch(`http://localhost:5000/tasks/${id}`);
     const data = await res.json();
 
     return data;
   };
-  //update todo
+  //update task
   const updateTodo = async (id) => {
-    const todoToUpdate = await fetchTodo(id);
-    const updTodo = { ...todoToUpdate, complete: !todoToUpdate.complete };
+    const taskToUpdate = await fetchTodo(id);
+    const updTodo = { ...taskToUpdate, complete: !taskToUpdate.complete };
 
-    const res = await fetch(`http://localhost:5000/todos/${id}`, {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(updTodo),
@@ -61,15 +61,15 @@ const App = () => {
     const data = await res.json();
 
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, complete: data.complete } : todo
+      tasks.map((task) =>
+        task.id === id ? { ...task, complete: data.complete } : task
       )
     );
   };
-  //delete todo
+  //delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/todos/${id}`, { method: "DELETE" });
-    setTodos(todos.filter((todo) => todo.id !== id));
+    await fetch(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
+    setTodos(tasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -81,7 +81,8 @@ const App = () => {
             bgcolor: "background.primary",
             minHeight: "100vh",
           }}
-          maxWidth="sm">
+          maxWidth="sm"
+        >
           <Header />
           {showForm && <AddTodo onAdd={addTodo} showForm={setShowForm} />}
           <Box
@@ -91,10 +92,11 @@ const App = () => {
               maxHeight: "75vh",
               overflow: "auto",
               mt: 3,
-            }}>
-            {todos.length > 0 ? (
+            }}
+          >
+            {tasks.length > 0 ? (
               <Todos
-                todos={todos}
+                tasks={tasks}
                 onDelete={deleteTask}
                 onUpdate={updateTodo}
               />
@@ -107,7 +109,8 @@ const App = () => {
                   my: "auto",
                   textAlign: "center",
                   color: "text.secondary",
-                }}>
+                }}
+              >
                 No Tasks to show
               </Typography>
             )}

@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const Todo = ({ todo, onDelete, onUpdate }) => {
+const Task = ({ task, onDelete, onUpdate }) => {
   return (
     <Card
       sx={{
@@ -15,10 +15,11 @@ const Todo = ({ todo, onDelete, onUpdate }) => {
         height: 70,
         bgcolor: "background.main",
         mb: 1,
-      }}>
+      }}
+    >
       <CardContent>
         <Typography sx={{ color: "background.secondary" }}>
-          {todo.title}
+          {task.title}
         </Typography>
       </CardContent>
       <CardActions>
@@ -29,13 +30,13 @@ const Todo = ({ todo, onDelete, onUpdate }) => {
               color: "background.secondary",
             },
           }}
-          onChange={() => onUpdate(todo.id)}
+          onChange={() => onUpdate(task.id)}
         />
-        <Button onClick={() => onDelete(todo.id)} size="small">
+        <Button onClick={() => onDelete(task.id)} size="small">
           <DeleteIcon sx={{ color: "background.secondary" }} />
         </Button>
       </CardActions>
     </Card>
   );
 };
-export default Todo;
+export default Task;

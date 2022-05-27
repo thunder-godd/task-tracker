@@ -5,71 +5,70 @@ import { Box } from "@mui/system";
 import theme from "./assets/styles";
 import "./App.css";
 import Header from "./components/Header";
-import Todos from "./components/Todos";
-import AddTodo from "./components/AddTodo";
+import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 import FloatButton from "./components/FloatButton";
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  //create todo
-  const addTodo = async (todo) => {
-    const res = await fetch("http://https://salty-thicket-80808.herokuapp.com//todos", {
+  //create task
+  const addTask = async (task) => {
+    const res = await fetch("http://localhost:5000/api/task", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(todo),
+      body: JSON.stringify(task),
     });
+    console.log(res);
     const data = await res.json();
-    setTodos([...todos, data]);
-
-    // const id = Math.floor(Math.random() * 10000) + 1;
-    // const newTodo = { id, ...todo };
-    // setTodos([...todos, newTodo]);
+    setTasks([...tasks, data]);
   };
-  //get todos
+  //get tasks
   useEffect(() => {
-    const getTodos = async () => {
-      const todosFromServer = await fetchTodos();
-      setTodos(todosFromServer);
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks();
+      setTasks(tasksFromServer);
     };
 
-    getTodos();
+    getTasks();
   }, []);
-  const fetchTodos = async () => {
-    const res = await fetch("http://localhost:5000/todos");
+  const fetchTasks = async () => {
+    const res = await fetch("http://localhost:5000/api/tasks");
+    const data = await res.json();
+    console.log(data);
+    return data;
+  };
+  //get task
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/api/tasks/${id}`);
     const data = await res.json();
 
     return data;
   };
-  //get todo
-  const fetchTodo = async (id) => {
-    const res = await fetch(`http://localhost:5000/todos/${id}`);
-    const data = await res.json();
+  //update task
+  const updateTask = async (id) => {
+    const taskToUpdate = await fetchTask(id);
+    const updTask = { ...taskToUpdate, complete: !taskToUpdate.complete };
 
-    return data;
-  };
-  //update todo
-  const updateTodo = async (id) => {
-    const todoToUpdate = await fetchTodo(id);
-    const updTodo = { ...todoToUpdate, complete: !todoToUpdate.complete };
-
-    const res = await fetch(`http://localhost:5000/todos/${id}`, {
+    const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(updTodo),
+      body: JSON.stringify(updTask),
     });
     const data = await res.json();
 
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, complete: data.complete } : todo
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, complete: data.complete } : task
       )
     );
   };
-  //delete todo
+  //delete task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/todos/${id}`, { method: "DELETE" });
-    setTodos(todos.filter((todo) => todo.id !== id));
+    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+      method: "DELETE",
+    });
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -84,7 +83,7 @@ const App = () => {
           maxWidth="sm"
         >
           <Header />
-          {showForm && <AddTodo onAdd={addTodo} showForm={setShowForm} />}
+          {showForm && <AddTask onAdd={addTask} showForm={setShowForm} />}
           <Box
             sx={{
               bgcolor: "background.secondary",
@@ -94,11 +93,11 @@ const App = () => {
               mt: 3,
             }}
           >
-            {todos.length > 0 ? (
-              <Todos
-                todos={todos}
+            {tasks.length > 0 ? (
+              <Tasks
+                tasks={tasks}
                 onDelete={deleteTask}
-                onUpdate={updateTodo}
+                onUpdate={updateTask}
               />
             ) : (
               <Typography
